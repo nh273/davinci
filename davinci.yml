@@ -11,5 +11,6 @@ dependencies:
   - pip:
     - scikit-learn>=0.19.2
     - sklearn>=0.0
+    - ipython-cache>=0.2.6
 prefix: /Users/pnguyen/.pyenv/versions/anaconda3-5.2.0/envs/davinci
 
