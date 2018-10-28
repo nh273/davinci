@@ -1,3 +1,5 @@
+from bs4 import BeautifulSoup
+
 
 def scrape_reviews(driver, wine_url):
     '''Scraper for one single wine, getting reviews'''

@@ -1,9 +1,10 @@
-from scraper_helper import write_to_csv
+from scraper_helper import write_to_csv, random_sleep
 from wine_info_scraper import scrape_wine
 from tasting_note_scraper import scrape_reviews
 import time
 import requests
 from selenium import webdriver
+import numpy.random as nrand
 
 
 MAIN_URL = 'https://www.cellartracker.com/list.asp'
@@ -20,13 +21,29 @@ def scrape(driver, max_page):
     for page_number in range(1, max_page):
         winelist_url = get_wine_list_url(page_number)
         wines_urls = get_wines_url(driver, winelist_url)
-        write_to_csv(wines_urls, URL_FILE)
-        for wine_url in wines_urls:
-            wine_infos = scrape_wine(driver, wine_url)
+        write_to_csv(['url'], [{'url': url} for url in wines_urls],
+                     URL_FILE)
+        while wines_urls:
+            wine_url = nrand.choice(wines_urls)
+            wines_urls.remove(wine_url)
+            random_sleep()
+            wine_info = scrape_wine(driver, wine_url)
+            random_sleep()
             reviews = scrape_reviews(driver, wine_url)
-            write_to_csv(reviews, TASTING_NOTES_FILE)
-            write_to_csv(wine_infos, WINE_DATA_FILE)
-            time.sleep(2)
+            write_infos_to_csv(wine_info)
+            write_reviews_to_csv(reviews)
+            random_sleep()
+
+
+def write_infos_to_csv(wine_info):
+    '''Write reviews to csv'''
+    fields = ['title', 'varietal', 'score', 'country', 'region_1', 'region_2']
+    write_to_csv(fields, wine_info, WINE_DATA_FILE)
+
+
+def write_reviews_to_csv(wine_reviews):
+    fields = ['wine', 'note', 'score']
+    write_to_csv(fields, wine_reviews, TASTING_NOTES_FILE)
 
 
 def get_wine_list_url(page_number):
@@ -58,4 +75,5 @@ def get_wines_url(driver, wine_list_url):
 if __name__ == '__main__':
     driver = webdriver.Chrome(
         '/usr/local/Caskroom/chromedriver/2.41/chromedriver')
-    scrape(driver, 3)
+    scrape(driver, 201)
+    driver.quit()
