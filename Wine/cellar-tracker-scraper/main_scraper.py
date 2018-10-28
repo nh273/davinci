@@ -3,6 +3,8 @@ from wine_info_scraper import scrape_wine
 from tasting_note_scraper import scrape_reviews
 import time
 import requests
+from selenium import webdriver
+
 
 MAIN_URL = 'https://www.cellartracker.com/list.asp'
 HEADERS = {
@@ -20,8 +22,10 @@ def scrape(driver, max_page):
         wines_urls = get_wines_url(driver, winelist_url)
         write_to_csv(wines_urls, URL_FILE)
         for wine_url in wines_urls:
-            scrape_wine(wine_url)
-            scrape_reviews(wine_url)
+            wine_infos = scrape_wine(driver, wine_url)
+            reviews = scrape_reviews(driver, wine_url)
+            write_to_csv(reviews, TASTING_NOTES_FILE)
+            write_to_csv(wine_infos, WINE_DATA_FILE)
             time.sleep(2)
 
 
@@ -51,5 +55,7 @@ def get_wines_url(driver, wine_list_url):
     return url_list
 
 
-write_to_csv(reviews, TASTING_NOTES_FILE)
-write_to_csv(wine_infos, WINE_DATA_FILE)
+if __name__ == '__main__':
+    driver = webdriver.Chrome(
+        '/usr/local/Caskroom/chromedriver/2.41/chromedriver')
+    scrape(driver, 3)
