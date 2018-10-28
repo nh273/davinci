@@ -1,18 +1,20 @@
-def get_wine_soup(wine_url):
+from bs4 import BeautifulSoup
+import re
+
+
+def scrape_wine(driver, wine_url):
+    '''Scraper for one single wine, getting basic infos'''
+    wine_soup = get_wine_soup(driver, wine_url)
+    wine_infos = get_wine_infos(wine_soup)
+    return wine_infos
+
+
+def get_wine_soup(driver, wine_url):
     '''Given url for single wine, get content as BeautifulSoup'''
     driver.get(wine_url)
     source = driver.page_source
     soup = BeautifulSoup(source)
-    display('wine_soup: '+soup.prettify())
     return soup
-
-
-def strip_white_space(text):
-    """Clean up \n, \xa0 and the likes"""
-    to_replace = ['\n', '\xa0', '\t']
-    for unwanted in to_replace:
-        text = text.replace(unwanted, ' ')  # replace with space
-    return text
 
 
 def get_main_score(soup):
