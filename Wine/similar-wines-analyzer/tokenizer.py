@@ -2,8 +2,10 @@ import nltk
 import re
 import string
 
-wine_remove_words = ['wine','rosé', 'red', 'white', 'drink', 'aroma', 'flavor','vineyard']
+wine_remove_words = ['wine', 'rosé', 'red',
+                     'white', 'drink', 'aroma', 'flavor', 'vineyard']
 other_remove_words = ['\'s', "'"]
+
 
 def tokenize_grape_names(grape_names):
     """Given a list of grape names, split them
@@ -17,6 +19,7 @@ def tokenize_grape_names(grape_names):
         grape_tokens += tokens
     return grape_tokens
 
+
 def create_pre_lemmatizing_remove_words(grape_names):
     """Create list of words that needs to be removed
     from wine reviews before lemmatization happens"""
@@ -28,6 +31,7 @@ def create_pre_lemmatizing_remove_words(grape_names):
     )
     return pre_lem_remove
 
+
 def create_post_lemmatizing_remove_words():
     """Create list of words to be removed
     after lemmatization has happened"""
@@ -36,6 +40,7 @@ def create_post_lemmatizing_remove_words():
         + other_remove_words
     )
     return post_lem_remove
+
 
 def wine_tokenizer(desc, grape_names):
     """Turn wine descriptions into lowercase tokens.
@@ -51,7 +56,7 @@ def wine_tokenizer(desc, grape_names):
     lemmatizer = nltk.stem.WordNetLemmatizer()
 
     cleaned_tokens = [lemmatizer.lemmatize(t) for t in tokens
-    if not (
+                      if not (
         (t in pre_lem_remove)
         or (lemmatizer.lemmatize(t) in post_lem_remove)
         or (t.isnumeric())

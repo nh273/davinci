@@ -20,6 +20,6 @@ def strip_white_space(text):
 
 def random_sleep():
     '''Sleep a random amount of time'''
-    timeout = random.randint(5, 12)
+    timeout = random.randint(500, 1200)
     timeout += random.randint(0, 100)/100
     time.sleep(timeout)

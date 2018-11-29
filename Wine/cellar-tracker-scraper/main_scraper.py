@@ -27,8 +27,10 @@ def scrape(driver, max_page):
             wine_url = nrand.choice(wines_urls)
             wines_urls.remove(wine_url)
             random_sleep()
+
             wine_info = scrape_wine(driver, wine_url)
             random_sleep()
+
             reviews = scrape_reviews(driver, wine_url)
             write_infos_to_csv(wine_info)
             write_reviews_to_csv(reviews)
