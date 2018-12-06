@@ -1,4 +1,4 @@
-/Data
+/data_dump
 *.ipynb_checkpoints/
 .DS_Store
 *.cache_magic/
