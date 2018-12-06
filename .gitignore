@@ -3,6 +3,7 @@
 .DS_Store
 *.cache_magic/
 *.png
+*.log
 __pycache__/
 Readings/
 /snp
