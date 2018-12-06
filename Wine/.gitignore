@@ -1,0 +1,6 @@
+
+
+data/raw/*
+data/intermediary/*
+data/processed/*
+results/*
