@@ -7,5 +7,3 @@ Create virtual environment in you env manager of choice. We recommend `conda`.
 You will also need `pip`.
 
 Install dependencies with `conda env create -f davinci.yml`.
-
-test
